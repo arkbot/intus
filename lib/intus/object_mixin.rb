@@ -1,5 +1,3 @@
-require 'intus/support'
-
 module Intus
   module ObjectMixin
     def inside_class(*args, &block)
