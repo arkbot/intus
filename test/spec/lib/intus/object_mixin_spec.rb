@@ -34,7 +34,7 @@ describe Object do
           end
         end
         expect(result).to eq(Object)
-        expect(Object.instance_method(:foo)).to be_a(UnboundMethod)
+        expect(result).to respond_to(:foo)
       end
     end
 
