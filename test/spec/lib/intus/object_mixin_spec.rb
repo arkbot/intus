@@ -26,24 +26,28 @@ describe Object do
   end
 
   context 'when executing `inside`' do
-    it 'class method behaves like `class_exec` but returns `self`' do
-      result = Object.inside do
-        def foo
-          :foo
+    context 'on class' do
+      it 'behaves like `class_exec` but returns `self`' do
+        result = Object.inside do
+          def foo
+            :foo
+          end
         end
+        expect(result).to eq(Object)
+        expect(Object.instance_method(:foo)).to be_a(UnboundMethod)
       end
-      expect(result).to eq(Object)
-      expect(Object.instance_method(:foo)).to be_a(UnboundMethod)
     end
 
-    it 'instance method behaves like `instance_exec` but returns `self`' do
-      result = Object.new.inside do
-        def foo
-          :foo
+    context 'on instance' do
+      it 'behaves like `instance_exec` but returns `self`' do
+        result = Object.new.inside do
+          def foo
+            :foo
+          end
         end
+        expect(result).to be_a(Object)
+        expect(result).to respond_to(:foo)
       end
-      expect(result).to be_a(Object)
-      expect(result).to respond_to(:foo)
     end
   end
 end
