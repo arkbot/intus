@@ -1,7 +1,13 @@
 require 'intus'
 
 describe Object do
-  let(:some_object) { Object.new }
+  def mock(klazz_or_instance)
+    klazz_or_instance.inside do
+      def foo
+        self
+      end
+    end
+  end
 
   context 'after requiring' do
     context 'on class' do
@@ -28,11 +34,7 @@ describe Object do
   context 'when executing `inside`' do
     context 'on class' do
       it 'behaves like `class_exec` but returns `self`' do
-        result = Object.inside do
-          def foo
-            :foo
-          end
-        end
+        result = mock(Object)
         expect(result).to eq(Object)
         expect(result).to respond_to(:foo)
       end
@@ -40,11 +42,7 @@ describe Object do
 
     context 'on instance' do
       it 'behaves like `instance_exec` but returns `self`' do
-        result = Object.new.inside do
-          def foo
-            :foo
-          end
-        end
+        result = mock(Object.new)
         expect(result).to be_a(Object)
         expect(result).to respond_to(:foo)
       end
