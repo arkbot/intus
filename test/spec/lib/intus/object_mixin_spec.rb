@@ -4,20 +4,24 @@ describe Object do
   let(:some_object) { Object.new }
 
   context 'after requiring' do
-    it 'exposes class method `inside_class`' do
-      expect(Object).to respond_to(:inside_class)
+    context 'on class' do
+      it 'exposes `inside_class`' do
+        expect(Object).to respond_to(:inside_class)
+      end
+
+      it 'aliases `inside` to `inside_class`' do
+        expect("#{Object.method(:inside)}").to match(/inside_class/)
+      end
     end
 
-    it 'exposes instance method `inside_instance`' do
-      expect(Object.new).to respond_to(:inside_instance)
-    end
+    context 'on instance' do
+      it 'exposes `inside_instance`' do
+        expect(Object.new).to respond_to(:inside_instance)
+      end
 
-    it 'aliases class method `inside` to the `inside_class` method' do
-      expect("#{Object.method(:inside)}").to match(/inside_class/)
-    end
-
-    it 'aliases instance method `inside` to the `inside_instance` method' do
-      expect("#{Object.new.method(:inside)}").to match(/inside_instance/)
+      it 'aliases `inside` to `inside_instance`' do
+        expect("#{Object.new.method(:inside)}").to match(/inside_instance/)
+      end
     end
   end
 
